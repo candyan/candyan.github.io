@@ -1,1 +1,3 @@
-Auto generate README
+Arda
+
+[Candyan's blog](http://candyan.com)

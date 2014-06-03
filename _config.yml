@@ -2,16 +2,14 @@ markdown:         redcarpet
 highlighter:      pygments
 permalink:        /:categories/:year/:month/:day/:title/
 
-title:            "木洛七"
-url:              http://wolege.ca
+title:            "Arda"
+url:              http://candyan.com
 feed:             /feed.xml
 author:
-    name:         tonic
-    key:          dalaran
-description:      "平行世界的穿梭者"
-copyright:        "Copyright tonic 2014 by GitHub and Jekyll"
-headdesc:         "Mu'roq 木洛七"
-headkeys:         "muroq"
+    name:         canydan
+description:      "舌尖上的吃货，指尖上的Coder。"
+copyright:        "Copyright candyan 2014 by GitHub and Jekyll"
+headdesc:         "Candy is the Answer."
 
 redcarpet:
     extensions: ["fenced_code_blocks"]
