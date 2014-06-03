@@ -4,12 +4,13 @@ title:   about
 description:  关于
 ---
 
-精神病, 伪geek, 火车迷, 吃货
+吃货，吃货。。吃货
 
-热爱自然科学
+无生活洁癖，略有代码洁癖
 
-相信世界比我们能解释的要大太多
+喜欢四处游荡，感受不同人的不同生活；
 
-[微博](http://weibo.com/tonicbupt)
-[豆瓣](http://www.douban.com/people/tonicbupt)
-[Instagram](http://instagram.com/tonicbupt)
+喜欢细雨清茶，思考着有的没的的事情。
+
+[Github](https://github.com/candyan)
+[豆瓣](http://www.douban.com/people/simpleYan/)
