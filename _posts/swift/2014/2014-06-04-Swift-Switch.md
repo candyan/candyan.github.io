@@ -13,9 +13,9 @@ Swift 在条件判断上依然沿用了传统的 `if` 和 `switch`。其中 `if`
 let peopleID = 4148
 switch peopleID {
 case 4148:
-    println(You are Canydan.)
+    println("You are Canydan.")
 default:
-    println(I don't know who you are.)
+    println("I don't know who you are.")
 }
 ```
 
@@ -48,9 +48,9 @@ switch (peopleID) {
 let peopleID = 4148
 switch peopleID {
 case 4148, 4739:
-    println(You are Canydan.)
+    println("You are Canydan.")
 default:
-    println(I don't know who you are.)
+    println("I don't know who you are.")
 }
 ```
 
@@ -86,7 +86,7 @@ println(description)
 let peopleID = 4148
 switch peopleID {
 case 4148, 4739:
-    println(You are Canydan.)
+    println("You are Canydan.")
 default:
    break;
 }
