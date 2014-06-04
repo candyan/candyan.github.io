@@ -62,7 +62,7 @@ Swift 可以在 同一个 `case` 中使用 `,` 来区隔不同的条件值。
 
 当然了前面只是默认情况，如果你非要Fall Through也不是不可以的。有 `fallthrough` 关键字来满足你。
 
-```
+```javascript
 let integerToDescribe = 5
 var description = "The number \(integerToDescribe) is"
 switch integerToDescribe {
