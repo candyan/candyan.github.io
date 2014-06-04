@@ -7,6 +7,7 @@ url:              http://candyan.com
 feed:             /feed.xml
 author:
     name:         canydan
+    key:          waxberry
 description:      "舌尖上的吃货，指尖上的Coder。"
 copyright:        "Copyright candyan 2014 by GitHub and Jekyll"
 headdesc:         "Candy is the Answer."
