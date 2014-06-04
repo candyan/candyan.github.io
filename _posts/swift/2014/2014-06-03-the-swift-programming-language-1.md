@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The Swift Programming Language
-category: blog
+category: Swift
 description: 语法指南 —— 基础篇
 tags: Swift iOS
 ---
