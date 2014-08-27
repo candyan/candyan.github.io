@@ -34,7 +34,7 @@ UIApplication *app = [UIApplication sharedApplication];
 >
 > 上面的写法完全是为了显示好看，并无实际意义。写成一行完全可以。
 
-那么需要在何时调用上面的方法哪？通常有一些人是在`application:didFinishLaunchingWithOptions:` 这个方法中调用。在此方法中调用的问题是，随着iPhone内存的不断增大，这个方法被调用的机会会越来越少。当用户在系统中修改了推送设置时，很难实时和准确的为用户请求新的token或者开启或关闭推送功能。所以建议是在 `applicationDidBecomeActive:` 方法中调用，这样可以保证每次app被激活的时候都会去向系统注册和申请新的token。
+那么需要在何时调用上面的方法哪？通常有一些人是在`application:didFinishLaunchingWithOptions:` 这个方法中调用。在此方法中调用的问题是，随着iPhone内存的不断增大，这个方法被调用的机会会越来越少。当用户在系统中修改了推送设置时，很难实时和准确的为用户请求新的`device token`或者开启或关闭推送功能。所以建议是在 `applicationDidBecomeActive:` 方法中调用，这样可以保证每次app被激活的时候都会去向系统注册和申请新的`device token`。
 
 ```objective-c
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -46,7 +46,7 @@ UIApplication *app = [UIApplication sharedApplication];
 }
 ```
 
-当我们向系统注册完成之后，系统就会返回给我们一个 device token。这样我们就可以用这个 device token 来给相应的设备推送消息啦。但是这里有个问题，就是当网络情况不好的时候系统是连接不上APNs的，这样device token可能会返回失败，我就拿不到一个有效的 token 了。所以为了避免这个问题，我们可以在注册的时候事先判断下当前的网络情况：
+当我们向系统注册完成之后，系统就会返回给我们一个`device token`。这样我们就可以用这个`device token`来给相应的设备推送消息啦。但是这里有个问题，就是当网络情况不好的时候系统是连接不上APNs的，这样`device token`可能会返回失败，我就拿不到一个有效的`device token`了。所以为了避免这个问题，我们可以在注册的时候事先判断下当前的网络情况：
 
 ```objective-c
 - (void)applicationDidBecomeActive:(UIApplication *)application
