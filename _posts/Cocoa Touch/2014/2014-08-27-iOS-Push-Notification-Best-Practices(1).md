@@ -2,7 +2,7 @@
 layout: post
 title: iOS Best Practice - Push Notification(1)
 category: Cocoa Touch
-tags: Cocoa\ Touch iOS Best\ Practices
+tags: CocoaTouch iOS Best-Practices
 ---
 
 [消息推送](https://developer.apple.com/notifications/) 是现在常用的一种及时通知用户相关信息的手段。
@@ -23,15 +23,15 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 
 在 iOS 中要获取`device token`需要向系统进行注册：
 
-```javascript
+```objective-c
 [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                                        UIRemoteNotificationTypeAlert |
                                                                        UIRemoteNotificationTypeSound)];
 ```
 
-那么需要在何时调用上面的方法哪？通常有一些人是在`- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions` 这个方法中调用。在此方法中调用的问题是，随着iPhone内存的不断增大，这个方法被调用的机会会越来越少。当用户在系统中修改了推送设置时，很难实时和准确的为用户请求新的token或者开启或关闭推送功能。所以建议是在 `- (void)applicationDidBecomeActive:(UIApplication *)application` 方法中调用，这样可以保证每次app被激活的时候都会去向系统注册和申请新的token。
+那么需要在何时调用上面的方法哪？通常有一些人是在`application:didFinishLaunchingWithOptions:` 这个方法中调用。在此方法中调用的问题是，随着iPhone内存的不断增大，这个方法被调用的机会会越来越少。当用户在系统中修改了推送设置时，很难实时和准确的为用户请求新的token或者开启或关闭推送功能。所以建议是在 `applicationDidBecomeActive:` 方法中调用，这样可以保证每次app被激活的时候都会去向系统注册和申请新的token。
 
-```javascript
+```objective-c
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {  
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
@@ -42,7 +42,7 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 
 当我们向系统注册完成之后，系统就会返回给我们一个 device token。这样我们就可以用这个 device token 来给相应的设备推送消息啦。但是这里有个问题，就是当网络情况不好的时候系统是连接不上APNs的，这样device token可能会返回失败，我就拿不到一个有效的 token 了。所以为了避免这个问题，我们可以在注册的时候事先判断下当前的网络情况：
 
-```javascript
+```objective-c
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {  
     if([AppMangaer sharedManager].reachability.isReachable) {
@@ -79,7 +79,7 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 
 首先我们来看下如何拿到这个`device token`:
 
-```javascript
+```objective-c
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     if(deviceToken) {
@@ -94,7 +94,7 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 但有一个问题是当你每次调用 `registerForRemoteNotificationTypes:` 的时候，`application:didRegisterForRemoteNotificationsWithDeviceToken:` 这个方法都会被调用返回给你一个`device token`。而且通常这个`device token`是不会变的。所以我们就需要把这个 `device token`保存下来，来防止频繁的像服务器发送无意义的请求：
 
 
-```javascript
+```objective-c
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     if(deviceToken &&
@@ -114,7 +114,7 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 >
 > 要在上传`device token`成功之后才去保存到本地，这样可以在请求失败的时候，下次继续上传。
 
-最后，再在 `- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error` 方法里面收集下注册推送时候错误。这下就完美了。
+最后，再在 `application:didFailToRegisterForRemoteNotificationsWithError:` 方法里面收集下注册推送时候错误。这下就完美了。
 
 到这个时候，我们已经把推送服务的注册，`device token`的获取，再到同步到服务器的整个过程都做了一次介绍和优化，保证了在`device token`共享阶段，能够实时的，稳定的，有效的获取`device token`并同步到服务器上。
 
