@@ -24,19 +24,25 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 在 iOS 中要获取`device token`需要向系统进行注册：
 
 ```objective-c
-[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                                       UIRemoteNotificationTypeAlert |
-                                                                       UIRemoteNotificationTypeSound)];
+UIApplication *app = [UIApplication sharedApplication];
+[app registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                         UIRemoteNotificationTypeAlert |
+                                         UIRemoteNotificationTypeSound)];
 ```
+
+>TIPS:
+>
+> 上面的写法完全是为了显示好看，并无实际意义。写成一行完全可以。
 
 那么需要在何时调用上面的方法哪？通常有一些人是在`application:didFinishLaunchingWithOptions:` 这个方法中调用。在此方法中调用的问题是，随着iPhone内存的不断增大，这个方法被调用的机会会越来越少。当用户在系统中修改了推送设置时，很难实时和准确的为用户请求新的token或者开启或关闭推送功能。所以建议是在 `applicationDidBecomeActive:` 方法中调用，这样可以保证每次app被激活的时候都会去向系统注册和申请新的token。
 
 ```objective-c
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {  
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                                           UIRemoteNotificationTypeAlert |
-                                                                           UIRemoteNotificationTypeSound)];
+    UIApplication *app = [UIApplication sharedApplication];
+    [app registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                             UIRemoteNotificationTypeAlert |
+                                             UIRemoteNotificationTypeSound)];
 }
 ```
 
@@ -46,15 +52,18 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {  
     if([AppMangaer sharedManager].reachability.isReachable) {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                                               UIRemoteNotificationTypeAlert |
-                                                                               UIRemoteNotificationTypeSound)];
+        UIApplication *app = [UIApplication sharedApplication];
+        [app registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                 UIRemoteNotificationTypeAlert |
+                                                 UIRemoteNotificationTypeSound)];
     }
 }
 ```
 
 > NOTE
+> 
 > 这里是用 Reachability 来判断当前的网络状态的。
+> 
 > AppManager 的单例会持有一个 Reachability 对象，大家可以按自己项目的实际情况来做判断。
 
 我们现在已经的解决了没有网络的情况，这样我们就可以顺利的拿到`device token`了！！吗？
@@ -70,6 +79,7 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 所以，我们需要在开始的时候预估下用户现在是不是要接受。如果用户现在不想接收推送，我们就可以不去注册推送这个功能；如果想，我们再去注册。然后不想接收的用户，我们还可以每隔一段时间再去问一次。这样就可以以一个最低的成本来保证大部分用户都能够同意系统弹出的提示。
 
 > NOTE
+> 
 > 这里有篇[文章](http://adriancrook.com/ios-best-practice-push-notifications-dialog/)，思想很接近。大家可以借鉴参考下。
 
 
@@ -111,7 +121,7 @@ Apple 的 消息推送主要分为两个阶段，`device token` 共享 和 发�
 > NOTE
 > 
 > [AppManager sharedManager].deviceToken 会把`device token`保存到 UserDefault 里面。
->
+> 
 > 要在上传`device token`成功之后才去保存到本地，这样可以在请求失败的时候，下次继续上传。
 
 最后，再在 `application:didFailToRegisterForRemoteNotificationsWithError:` 方法里面收集下注册推送时候错误。这下就完美了。
